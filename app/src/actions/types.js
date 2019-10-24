@@ -1,0 +1,1 @@
+export const FETCH_ADDRESSES = 'fetch_addresses';
