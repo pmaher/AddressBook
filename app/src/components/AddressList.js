@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-import { connect } from 'react-redux';
 import { fetchAddresses } from '../actions';
-import AddressList from './AddressList';
+import { connect } from 'react-redux';
 import AddressRow from './AddressRow';
 
-class App extends Component {
-
-
+class AddressList extends Component {
+    
+    componentDidMount() {
+        this.props.fetchAddresses();
+    }
 
     renderAddresses() {
         return (<table>
@@ -25,28 +25,24 @@ class App extends Component {
             </tr>
             </thead>
             <tbody>
-                {/*this.props.addresses.map((address, i) =>
-                    <AddressRow key={i} {...address} />)*/}
+                {this.props.addresses.map((address, i) =>
+                    <AddressRow key={i} {...address} />)}
             </tbody>
         </table>);
     }
 
     render() {
         return (
-            <div className="container">
-                <BrowserRouter>
-                    <div className="container">
-                        <Route exact path="/" component={AddressList} />
-                    </div>
-                </BrowserRouter>
+            <div>
+                {this.renderAddresses()}
             </div>
-        );
+        )
     }
-};
+}
 
 //this maps the addresses from the reducer to the component props
 function mapStateToProps(addresses) {
     return { addresses: addresses || [] };
 }
 
-export default App;
+export default connect(mapStateToProps, { fetchAddresses })(AddressList);

@@ -5,6 +5,6 @@ export default function( state = [], action) {
         case FETCH_ADDRESSES:
             return action.payload;
         default:
-            return state;
+            return [];
     }
 }
