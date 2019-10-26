@@ -34,7 +34,7 @@ class AddressList extends Component {
             <div>
                 {this.renderAddresses()}
                 <div className="fixed-action-btn">
-                    <Link to="/surveys/new" className="btn-floating btn-large red">
+                    <Link to="/new" className="btn-floating btn-large red">
                         <i className="material-icons">add</i>
                     </Link>
                 </div>
