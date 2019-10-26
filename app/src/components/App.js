@@ -1,42 +1,17 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { fetchAddresses } from '../actions';
 import AddressList from './AddressList';
-import AddressRow from './AddressRow';
+import EditAddress from './EditAddress';
 
 class App extends Component {
-
-
-
-    renderAddresses() {
-        return (<table>
-            <thead>
-            <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Address</th>
-                <th>Secondary Address</th>
-                <th>City</th>
-                <th>State</th>
-                <th>Zip</th>
-                <th>Email</th>
-                <th>Phone</th>
-            </tr>
-            </thead>
-            <tbody>
-                {/*this.props.addresses.map((address, i) =>
-                    <AddressRow key={i} {...address} />)*/}
-            </tbody>
-        </table>);
-    }
 
     render() {
         return (
             <div className="container">
                 <BrowserRouter>
-                    <div className="container">
+                    <div>
                         <Route exact path="/" component={AddressList} />
+                        <Route path="/edit/:id" component={EditAddress} />
                     </div>
                 </BrowserRouter>
             </div>

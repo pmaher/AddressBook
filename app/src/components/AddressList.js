@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { fetchAddresses } from '../actions';
 import { connect } from 'react-redux';
 import AddressRow from './AddressRow';
+import { Link } from 'react-router-dom';
 
 class AddressList extends Component {
     
@@ -10,18 +11,15 @@ class AddressList extends Component {
     }
 
     renderAddresses() {
-        return (<table>
+        return (<table className="highlight">
             <thead>
             <tr>
                 <th>First Name</th>
                 <th>Last Name</th>
-                <th>Address</th>
-                <th>Secondary Address</th>
-                <th>City</th>
-                <th>State</th>
-                <th>Zip</th>
                 <th>Email</th>
                 <th>Phone</th>
+                <th>Edit</th>
+                <th>Delete</th>
             </tr>
             </thead>
             <tbody>
@@ -35,6 +33,11 @@ class AddressList extends Component {
         return (
             <div>
                 {this.renderAddresses()}
+                <div className="fixed-action-btn">
+                    <Link to="/surveys/new" className="btn-floating btn-large red">
+                        <i className="material-icons">add</i>
+                    </Link>
+                </div>
             </div>
         )
     }

@@ -1,16 +1,16 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const AddressRow = ({firstName,lastName,address,address2,city,state,zipcode,email,phone}) =>
+const AddressRow = ({id, firstName,lastName,email,phone}) =>
     <tr>
         <td>{firstName}</td>
         <td>{lastName}</td>
-        <td>{address}</td>
-        <td>{address2}</td>
-        <td>{city}</td>
-        <td>{state}</td>
-        <td>{zipcode}</td>
         <td>{email}</td>
         <td>{phone}</td>
+        <td>
+            <Link to={`/edit/${id}`}><i className="material-icons">edit</i></Link>
+        </td>
+        <td><a href="#"><i className="material-icons">delete</i></a></td>
     </tr>
 
 export default AddressRow
