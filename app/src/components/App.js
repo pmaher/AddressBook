@@ -4,7 +4,6 @@ import AddressList from './AddressList';
 import EditAddress from './EditAddress';
 import NewAddress from './NewAddress';
 
-
 class App extends Component {
 
     render() {
@@ -21,10 +20,5 @@ class App extends Component {
         );
     }
 };
-
-//this maps the addresses from the reducer to the component props
-function mapStateToProps(addresses) {
-    return { addresses: addresses || [] };
-}
 
 export default App;

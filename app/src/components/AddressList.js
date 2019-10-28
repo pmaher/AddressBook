@@ -23,13 +23,15 @@ class AddressList extends Component {
             </tr>
             </thead>
             <tbody>
-                {this.props.addresses.map((address, i) =>
+                {this.props.addresses &&
+                this.props.addresses.map((address, i) =>
                     <AddressRow key={i} {...address} />)}
             </tbody>
         </table>);
     }
 
     render() {
+        debugger;
         return (
             <div>
                 {this.renderAddresses()}
@@ -44,8 +46,9 @@ class AddressList extends Component {
 }
 
 //this maps the addresses from the reducer to the component props
-function mapStateToProps(addresses) {
-    return { addresses: addresses || [] };
+function mapStateToProps(state) {
+    return state.reducers;
+    //    return { addresses: addresses || [] };
 }
 
 export default connect(mapStateToProps, { fetchAddresses })(AddressList);
