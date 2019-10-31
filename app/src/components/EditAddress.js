@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { reduxForm, Field } from 'redux-form';
 import AddressField from './field/AddressField';
 import formFields from './field/formFields';
+import SelectUSState from 'react-select-us-states';
 
 class EditAddress extends Component {
 
@@ -15,6 +16,9 @@ class EditAddress extends Component {
 
     renderFields() {
         return formFields.map(({label, name}) => {
+            if(name === 'state') {
+                return <Field key={name} component={AddressField} type="select" label={label} name={name} />;
+            }
             return <Field key={name} component={AddressField} type="text" label={label} name={name} />
         });
     }
