@@ -1,7 +1,7 @@
 import React from 'react';
 import states from './states.json';
 
-export default ({ input, label, type }) => {
+export default ({ input, label, type, meta: {error, touched }  }) => {
     return (
         <div>
             <label>{label}</label>
@@ -11,7 +11,9 @@ export default ({ input, label, type }) => {
                 </select>) :
                 (<input { ...input } />)
             }
-            
+            <div className="red-text" style={{ marginBottom: '20px'}}>
+                {touched && error}
+            </div>
         </div>
     );
 };
