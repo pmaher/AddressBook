@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import { reduxForm, Field } from 'redux-form';
 import AddressField from './field/AddressField';
 import formFields from './field/formFields';
-import { asyncValidate, shouldAsyncValidate } from 'redux-form-yup';
+import schema from './field/validationSchema';
+//import { asyncValidate, shouldAsyncValidate } from 'redux-form-yup';
 import * as Yup from 'yup';
 
 class EditAddress extends Component {
@@ -39,19 +40,19 @@ class EditAddress extends Component {
 
 
 async function validate(values, Yup) {
-    const schema = Yup
-    .object()
-    .shape({ 
-        firstName: Yup.string().required(), 
-        lastName: Yup.string().required(),
-        email: Yup.string().email().required(),
-        address: Yup.string().required(),
-        city: Yup.string().required(),
-        state: Yup.string().required().min(2).max(2),
-        zipcode: Yup.number(),
-        email: Yup.string().required(),
-        phone: Yup.string().required()
-    });
+    // const schema = Yup
+    // .object()
+    // .shape({ 
+    //     firstName: Yup.string().required(), 
+    //     lastName: Yup.string().required(),
+    //     email: Yup.string().email().required(),
+    //     address: Yup.string().required(),
+    //     city: Yup.string().required(),
+    //     state: Yup.string().required().min(2).max(2),
+    //     zipcode: Yup.number(),
+    //     email: Yup.string().required(),
+    //     phone: Yup.string().required()
+    // });
 
     // const errors = {};
      
@@ -59,21 +60,54 @@ async function validate(values, Yup) {
     // return errors;
     const promy = await schema.validate(values);
     debugger;
-    //proxy.then((it)=> (console.dir(it)));
-    return promy;
-    // const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-    // return sleep(1000).then(() => {
-    //     // simulate server latency
-    //       throw { firstName: 'did it touch', lastName: 'That username is taken', address: 'duh' };
+    console.log('in validate');
+
+    const handleIt = (response) => {
+        if(response.errors) {
+            throw { firstName: 'did it touch', lastName: 'That username is taken', address: 'duh' };
+        } else {
+            return {};
+        }
+    };
+    // return new Promise((res, rej) => {
+    //     //return handleIt
     // });
+    //proxy.then((it)=> (console.dir(it)));
+    //return promy;
+    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+    return sleep(1000).then(() => {
+        // simulate server latency
+          return { firstName: 'did it touch', lastName: 'That username is taken', address: 'duh' };
+    });
 }
+
+const asyncValidate = values => {
+
+    return new Promise((resolve, reject) => {
+        //Validate our form values against our schema
+        schema.validate(values, {abortEarly: false})
+            .then(() => {
+                resolve();
+            })
+            .catch(errors => {
+                //creates an object of the form { field1: 'field1 is required', field2: 'field2 is required'}
+                console.dir(errors.inner);
+                const reduxFormErrors = errors.inner.reduce((acc, current) => {
+                    return Object.assign(acc, { [current.path]: current.message });
+                }, {});
+                reject(reduxFormErrors);
+            })
+    });
+};
+
 
 EditAddress = reduxForm({
     form: 'initializeFromState', // a unique identifier for this form
     enableReinitialize: true,
     destroyOnUnmount: true,
-    asyncValidate: async values => { await validate(values, Yup) },
-    shouldAsyncValidate: () => { return true }
+    asyncValidate,
+    //asyncValidate: async values => { await validate(values, Yup) },
+    //shouldAsyncValidate: () => { return true }
 })(EditAddress)
   
 // You have to connect() to any reducers that you wish to connect to yourself
