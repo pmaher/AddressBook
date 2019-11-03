@@ -1,14 +1,13 @@
-import { FETCH_ADDRESSES, FETCH_ADDRESS } from '../actions/types';
+import { FETCH_ADDRESSES, FETCH_ADDRESS, UPDATE_ADDRESS } from '../actions/types';
 
 export default function( state = {}, action) {
     switch(action.type) {
         case FETCH_ADDRESSES:
-            //return action.payload;
             return Object.assign({}, state, {
                 addresses: action.payload
             });
         case FETCH_ADDRESS:
-            //return action.payload;
+        case UPDATE_ADDRESS:    
             return Object.assign({}, state, {
                 address: action.payload
             });

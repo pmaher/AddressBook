@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchAddress } from '../actions';
+import { fetchAddress, updateAddress } from '../actions';
 import { Link } from 'react-router-dom';
 import { reduxForm, Field, change } from 'redux-form';
 import AddressField from './field/AddressField';
 import formFields from './field/formFields';
 import schema from './field/validationSchema';
+import { withRouter } from 'react-router-dom';
 
 class EditAddress extends Component {
 
@@ -25,10 +26,15 @@ class EditAddress extends Component {
         });
     }
 
+    submitForm(address) {
+        const { updateAddress, history } = this.props;
+        updateAddress(address, history);
+    }
+
     render() {
-        const { handleSubmit, load, pristine, reset, submitting } = this.props;
+        const { handleSubmit, load, pristine, reset, submitting,  } = this.props;
         return (
-            <form onSubmit={handleSubmit(() => {console.log('submitting form'); })}>
+            <form onSubmit={handleSubmit(this.submitForm.bind(this))}>
                 { this.renderFields() }
                 <Link to="/" className="red btn-flat left white-text">
                     Cancel
@@ -68,15 +74,20 @@ EditAddress = reduxForm({
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchAddress: (id) => { dispatch(fetchAddress(id)); },
+        updateAddress: (address, history) => { dispatch(updateAddress(address, history)); },
         //this is used to trigger a change for the phone number field
         changeFieldValue: function(field, value) {
             dispatch(change('addressForm', field, value))
         }
     }
  }
+
+ const mapStateToProps = (state) => {
+     return {initialValues: state.reducers.address};
+ }
   
 // You have to connect() to any reducers that you wish to connect to yourself
-EditAddress = connect(state=>({initialValues: state.reducers.address}), mapDispatchToProps
+EditAddress = connect(mapStateToProps, mapDispatchToProps
 )(EditAddress)
   
-export default EditAddress;
+export default withRouter(EditAddress);
