@@ -7,5 +7,5 @@ export default [
     {label: 'State', name: 'state', type: 'select'},
     {label: 'Zip Code', name: 'zipcode', type: 'text'},
     {label: 'Email', name: 'email', type: 'text'},
-    {label: 'Phone', name: 'phone', type: 'text'}
+    {label: 'Phone', name: 'phone', type: 'phone'}
 ];

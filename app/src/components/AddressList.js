@@ -31,7 +31,6 @@ class AddressList extends Component {
     }
 
     render() {
-        debugger;
         return (
             <div>
                 {this.renderAddresses()}
@@ -48,7 +47,6 @@ class AddressList extends Component {
 //this maps the addresses from the reducer to the component props
 function mapStateToProps(state) {
     return state.reducers;
-    //    return { addresses: addresses || [] };
 }
 
 export default connect(mapStateToProps, { fetchAddresses })(AddressList);

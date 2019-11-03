@@ -5,6 +5,8 @@
   "dependencies": {
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
+    "input-format": "^0.2.4",
+    "libphonenumber-js": "^1.7.26",
     "materialize-css": "^1.0.0",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",

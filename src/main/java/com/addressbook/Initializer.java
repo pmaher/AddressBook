@@ -25,12 +25,12 @@ public class Initializer implements CommandLineRunner {
 	@Override
 	public void run(String... strings) {
 		List<Address> testAddresses = new ArrayList<Address>(
-				Arrays.asList(new Address(null, "James", "Carter", "James.Carter@hotmail.com", "(805) 111-9999", "110 W. Liberty St.","","Madison","WI", "53001"),
-						new Address(null, "Helen", "Leary", "Helen.Leary@yahoo.com", "(805) 222-8888","638 Cardinal Ave.","Apt. 2","Sun Prairie", "WI", "53002"),
-						new Address(null, "Linda", "Douglas", "Linda.Douglas@gmail.com", "(805) 333-9999","2693 Commerce St.", "","Northridge", "CA", "91368"),
-						new Address(null, "Rafael", "Ortega", "Rafael.Ortega@aol.com", "(805) 333-7777","563 Friendly St.","Suite 21","Cambria", "CA","93428"),
-						new Address(null, "Henry", "Stevens", "Henry.Stevens@hs.com", "(805) 333-4444","2387 S. Fair Way","","Thousand Oaks", "CA","91361"),
-						new Address(null, "Sharon", "Jenkins", "Sharon.Jenkins@csun.edu", "(805) 333-1111","105 N. Lake St.","","Paso Robles", "CA","93458")));
+				Arrays.asList(new Address(null, "James", "Carter", "James.Carter@hotmail.com", "8051119999", "110 W. Liberty St.","","Madison","WI", "53001"),
+						new Address(null, "Helen", "Leary", "Helen.Leary@yahoo.com", "8052228888","638 Cardinal Ave.","Apt. 2","Sun Prairie", "WI", "53002"),
+						new Address(null, "Linda", "Douglas", "Linda.Douglas@gmail.com", "8053339999","2693 Commerce St.", "","Northridge", "CA", "91368"),
+						new Address(null, "Rafael", "Ortega", "Rafael.Ortega@aol.com", "8053337777","563 Friendly St.","Suite 21","Cambria", "CA","93428"),
+						new Address(null, "Henry", "Stevens", "Henry.Stevens@hs.com", "8053334444","2387 S. Fair Way","","Thousand Oaks", "CA","91361"),
+						new Address(null, "Sharon", "Jenkins", "Sharon.Jenkins@csun.edu", "8053331111","105 N. Lake St.","","Paso Robles", "CA","93458")));
 		testAddresses.forEach((address) -> {
 			addressRepository.save(address);
 		});
