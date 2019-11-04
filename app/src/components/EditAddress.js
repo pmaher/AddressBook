@@ -32,7 +32,7 @@ class EditAddress extends Component {
     }
 
     render() {
-        const { handleSubmit, load, pristine, reset, submitting,  } = this.props;
+        const { handleSubmit } = this.props;
         return (
             <form onSubmit={handleSubmit(this.submitForm.bind(this))}>
                 { this.renderFields() }

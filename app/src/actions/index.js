@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_ADDRESSES, FETCH_ADDRESS, UPDATE_ADDRESS } from '../actions/types';
+import { FETCH_ADDRESSES, FETCH_ADDRESS, UPDATE_ADDRESS, DELETE_ADDRESS } from '../actions/types';
 
 export const fetchAddresses = () => async dispatch => {
     const res = await axios.get('/api/address');
@@ -17,3 +17,8 @@ export const updateAddress = (address, history) => async dispatch => {
     history.push('/');
     dispatch({ type: UPDATE_ADDRESS, payload: res.data });
 };
+
+export const deleteAddress = (addressId) => async dispatch => {
+    await axios.delete(`/api/address/${addressId}`);
+    dispatch({ type: DELETE_ADDRESS, payload: { addressId } });
+}

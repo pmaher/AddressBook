@@ -3,11 +3,25 @@ import { fetchAddresses } from '../actions';
 import { connect } from 'react-redux';
 import AddressRow from './AddressRow';
 import { Link } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 
 class AddressList extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {addresses: []};
+    }
     
     componentDidMount() {
         this.props.fetchAddresses();
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        
+        if (props.addresses) {
+          return { addresses: props.addresses };
+        }
+        return null;
     }
 
     renderAddresses() {
@@ -23,8 +37,8 @@ class AddressList extends Component {
             </tr>
             </thead>
             <tbody>
-                {this.props.addresses &&
-                this.props.addresses.map((address, i) =>
+                {this.state.addresses &&
+                this.state.addresses.map((address, i) =>
                     <AddressRow key={i} {...address} />)}
             </tbody>
         </table>);
@@ -49,4 +63,11 @@ function mapStateToProps(state) {
     return state.reducers;
 }
 
-export default connect(mapStateToProps, { fetchAddresses })(AddressList);
+function mapDispatchToProps(dispatch){
+    return bindActionCreators({
+        fetchAddresses
+    }
+    , dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddressList);
