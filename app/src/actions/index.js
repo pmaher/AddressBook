@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_ADDRESSES, FETCH_ADDRESS, UPDATE_ADDRESS, DELETE_ADDRESS } from '../actions/types';
+import { FETCH_ADDRESSES, FETCH_ADDRESS, UPDATE_ADDRESS, CREATE_ADDRESS, DELETE_ADDRESS } from '../actions/types';
 
 export const fetchAddresses = () => async dispatch => {
     const res = await axios.get('/api/address');
@@ -16,6 +16,13 @@ export const updateAddress = (address, history) => async dispatch => {
     //go back to the homepage after updating an address
     history.push('/');
     dispatch({ type: UPDATE_ADDRESS, payload: res.data });
+};
+
+export const createAddress = (address, history) => async dispatch => {
+    const res = await axios.post('/api/address/', address);
+    //go back to the homepage after creating the address
+    history.push('/');
+    dispatch({ type: CREATE_ADDRESS, payload: res.data });
 };
 
 export const deleteAddress = (addressId) => async dispatch => {

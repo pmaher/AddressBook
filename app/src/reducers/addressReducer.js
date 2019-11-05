@@ -1,4 +1,4 @@
-import { FETCH_ADDRESSES, FETCH_ADDRESS, UPDATE_ADDRESS, DELETE_ADDRESS } from '../actions/types';
+import { FETCH_ADDRESSES, FETCH_ADDRESS, UPDATE_ADDRESS, CREATE_ADDRESS, DELETE_ADDRESS } from '../actions/types';
 
 //TODO: break this up into different state functions
 export default function( state = {}, action) {
@@ -8,7 +8,8 @@ export default function( state = {}, action) {
                 addresses: action.payload
             });
         case FETCH_ADDRESS:
-        case UPDATE_ADDRESS:    
+        case UPDATE_ADDRESS:
+        case CREATE_ADDRESS:       
             return Object.assign({}, state, {
                 address: action.payload
             });
