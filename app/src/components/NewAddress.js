@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createAddress } from '../actions';
 import { Link } from 'react-router-dom';
-import { reduxForm, Field, change } from 'redux-form';
+import { reduxForm, Field, change, reset } from 'redux-form';
 import AddressField from './field/AddressField';
 import formFields from './field/formFields';
 import schema from './field/validationSchema';
@@ -27,8 +27,13 @@ class NewAddress extends Component {
     }
 
     submitForm(address) {
-        const { createAddress, history } = this.props;
-        createAddress(address, history);
+        const { createAddress, history, resetForm } = this.props;
+        //make sure to trim all address values first
+        const trimmedAddress = Object.keys(address).reduce((acc, next) => {
+            acc[next] = address[next] ? address[next].toString().trim() : undefined;
+            return acc;
+        }, {});
+        createAddress(trimmedAddress, history);
     }
 
     render() {
@@ -47,7 +52,6 @@ class NewAddress extends Component {
 }
 
 const asyncValidate = values => {
-
     return new Promise((resolve, reject) => {
         //Validate our form values against our schema
         schema.validate(values, {abortEarly: false})
@@ -64,12 +68,16 @@ const asyncValidate = values => {
     });
 };
 
+const afterSubmit = (result, dispatch) => dispatch(reset('newAddressForm'));
+
 NewAddress = reduxForm({
-    form: 'addressForm', // a unique identifier for this form
+    form: 'newAddressForm', // a unique identifier for this form
     enableReinitialize: true,
     destroyOnUnmount: true,
     forceUnregisterOnUnmount: true,
-    asyncValidate
+    shouldAsyncValidate: () => (true),
+    asyncValidate,
+    onSubmitSuccess: afterSubmit,
 })(NewAddress)
 
 const mapDispatchToProps = (dispatch) => {
@@ -77,17 +85,13 @@ const mapDispatchToProps = (dispatch) => {
         createAddress: (address, history) => { dispatch(createAddress(address, history)); },
         //this is used to trigger a change for the phone number field
         changeFieldValue: function(field, value) {
-            dispatch(change('addressForm', field, value))
+            dispatch(change('newAddressForm', field, value))
         }
     }
- }
-
- const mapStateToProps = (state) => {
-     return {initialValues: state.reducers.address};
- }
+}
   
 // You have to connect() to any reducers that you wish to connect to yourself
-NewAddress = connect(mapStateToProps, mapDispatchToProps
+NewAddress = connect(()=> ({initialValues: {}}), mapDispatchToProps
 )(NewAddress)
   
 export default withRouter(NewAddress);

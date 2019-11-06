@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchAddress, updateAddress } from '../actions';
 import { Link } from 'react-router-dom';
-import { reduxForm, Field, change } from 'redux-form';
+import { reduxForm, Field, change, reset } from 'redux-form';
 import AddressField from './field/AddressField';
 import formFields from './field/formFields';
 import schema from './field/validationSchema';
@@ -28,7 +28,12 @@ class EditAddress extends Component {
 
     submitForm(address) {
         const { updateAddress, history } = this.props;
-        updateAddress(address, history);
+        //make sure to trim all address values first
+        const trimmedAddress = Object.keys(address).reduce((acc, next) => {
+            acc[next] = address[next] ? address[next].toString().trim() : undefined;
+            return acc;
+        }, {});
+        updateAddress(trimmedAddress, history);
     }
 
     render() {
@@ -64,11 +69,15 @@ const asyncValidate = values => {
     });
 };
 
+const afterSubmit = (result, dispatch) => dispatch(reset('editAddressForm'));
+
 EditAddress = reduxForm({
-    form: 'addressForm', // a unique identifier for this form
+    form: 'editAddressForm', // a unique identifier for this form
     enableReinitialize: true,
     destroyOnUnmount: true,
-    asyncValidate
+    shouldAsyncValidate: () => (true),
+    asyncValidate,
+    onSubmitSuccess: afterSubmit,
 })(EditAddress)
 
 const mapDispatchToProps = (dispatch) => {
@@ -77,7 +86,7 @@ const mapDispatchToProps = (dispatch) => {
         updateAddress: (address, history) => { dispatch(updateAddress(address, history)); },
         //this is used to trigger a change for the phone number field
         changeFieldValue: function(field, value) {
-            dispatch(change('addressForm', field, value))
+            dispatch(change('editAddressForm', field, value))
         }
     }
  }
