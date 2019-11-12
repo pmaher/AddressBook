@@ -4,12 +4,13 @@ import { connect } from 'react-redux';
 import AddressRow from './AddressRow';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
+import './AddressList.css';
 
 class AddressList extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {addresses: []};
+        this.state = {addresses: [], sortBy: 'firstName', sortOrder: 'asc'};
     }
     
     componentDidMount() {
@@ -24,13 +25,39 @@ class AddressList extends Component {
         return null;
     }
 
+    sortBy(event, field){
+        let order, compareFn;
+        if(this.state.sortBy === field) {
+            order = this.state.sortOrder === 'asc' ? 'desc' : 'asc';
+        } else {
+            order = 'asc';
+        }
+        if(order === 'asc') {
+            compareFn = (a,b) => (a[field].toLowerCase()<b[field].toLowerCase() ? -1 : 1 );
+        } else {
+            compareFn = (a,b) => (a[field].toLowerCase()>b[field].toLowerCase() ? -1 : 1);
+        }
+        this.setState({
+            addresses: this.state.addresses.sort(compareFn),
+            sortBy: field,
+            sortOrder: order
+        })
+    }
+
+    getSortClass(field) {
+        return (this.state.sortBy === field ? `sort-by-${this.state.sortOrder}` : 'sort-by-none');
+    }
+
     renderAddresses() {
         return (<table className="highlight">
             <thead>
             <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
+                <th><a href="#" onClick={e => this.sortBy(e, 'firstName')} 
+                        className={this.getSortClass('firstName')}>First Name<i className="small material-icons -up">arrow_drop_up</i><i className="small material-icons -down">arrow_drop_down</i></a></th>
+                <th><a href="#" onClick={e => this.sortBy(e, 'lastName')} 
+                        className={this.getSortClass('lastName')}>Last Name<i className="small material-icons -up">arrow_drop_up</i><i className="small material-icons -down">arrow_drop_down</i></a></th>
+                <th><a href="#" onClick={e => this.sortBy(e, 'email')} 
+                        className={this.getSortClass('email')}>Email<i className="small material-icons -up">arrow_drop_up</i><i className="small material-icons -down">arrow_drop_down</i></a></th>
                 <th>Phone</th>
                 <th>Edit</th>
                 <th>Delete</th>

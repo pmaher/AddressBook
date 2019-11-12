@@ -4,8 +4,9 @@ import { FETCH_ADDRESSES, FETCH_ADDRESS, UPDATE_ADDRESS, CREATE_ADDRESS, DELETE_
 export default function( state = {}, action) {
     switch(action.type) {
         case FETCH_ADDRESSES:
+            //sorted by firstName asc by default
             return Object.assign({}, state, {
-                addresses: action.payload
+                addresses: action.payload.sort((a,b)=> { return (a.firstName.toLowerCase() < b.firstName.toLowerCase() ?  -1 : 1)})
             });
         case FETCH_ADDRESS:
         case UPDATE_ADDRESS:

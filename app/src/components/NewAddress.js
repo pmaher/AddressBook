@@ -10,11 +10,6 @@ import { withRouter } from 'react-router-dom';
 
 class NewAddress extends Component {
 
-    // componentDidMount() {
-    //     const { id: addressId } = this.props.match.params;
-    //     this.props.fetchAddress(addressId);
-    // }
-
     updatePhoneNumber(value) {
         this.props.changeFieldValue('phone', value);
     }

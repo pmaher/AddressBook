@@ -1,0 +1,19 @@
+.sort-by-none i {
+    display: none;
+}
+.sort-by-asc,
+.sort-by-desc {
+    position:relative;
+}
+.sort-by-asc i,
+.sort-by-desc i {
+    position: absolute;
+    right: -24px;
+    top: -4px;
+}
+.sort-by-asc i.-down {
+    display: none;
+}
+.sort-by-desc i.-up {
+    display: none;
+}
