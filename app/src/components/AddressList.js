@@ -26,12 +26,8 @@ class AddressList extends Component {
     }
 
     sortBy(event, field){
-        let order, compareFn;
-        if(this.state.sortBy === field) {
-            order = this.state.sortOrder === 'asc' ? 'desc' : 'asc';
-        } else {
-            order = 'asc';
-        }
+        let compareFn;
+        const order = (this.state.sortBy === field && this.state.sortOrder === 'asc' ? 'desc' : 'asc');
         if(order === 'asc') {
             compareFn = (a,b) => (a[field].toLowerCase()<b[field].toLowerCase() ? -1 : 1 );
         } else {
