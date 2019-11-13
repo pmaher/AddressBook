@@ -82,8 +82,13 @@ class AddressList extends Component {
 }
 
 //this maps the addresses from the reducer to the component props
-function mapStateToProps(state) {
-    return state.reducers;
+function mapStateToProps({reducers: {addresses=[], filterString=''}}) {
+    const filteredAddresses = addresses.filter((address) => {
+        return (address.firstName.indexOf(filterString) > -1 
+                || address.lastName.indexOf(filterString) > -1 
+                || address.email.indexOf(filterString) > -1);
+    });
+    return { addresses: filteredAddresses };
 }
 
 function mapDispatchToProps(dispatch){

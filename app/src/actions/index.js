@@ -1,9 +1,16 @@
 import axios from 'axios';
-import { FETCH_ADDRESSES, FETCH_ADDRESS, UPDATE_ADDRESS, CREATE_ADDRESS, DELETE_ADDRESS } from '../actions/types';
+import { FETCH_ADDRESSES, FETCH_ADDRESS, UPDATE_ADDRESS, CREATE_ADDRESS, DELETE_ADDRESS, FILTER_ADDRESSES } from '../actions/types';
 
 export const fetchAddresses = () => async dispatch => {
     const res = await axios.get('/api/address');
     dispatch({ type: FETCH_ADDRESSES, payload: res.data });
+};
+
+export const filterAddresses = (addresses, filter) => async dispatch => {
+    // const filteredAddresses = addresses.filter((address) => {
+    //     return (address.firstName.indexOf(filter) > -1 || address.lastName.indexOf(filter) > -1 || address.email.indexOf(filter) > -1);
+    // });
+    dispatch({ type: FILTER_ADDRESSES, payload: filter });
 };
 
 export const fetchAddress = (addressId) => async dispatch => {

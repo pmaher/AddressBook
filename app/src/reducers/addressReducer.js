@@ -1,12 +1,17 @@
-import { FETCH_ADDRESSES, FETCH_ADDRESS, UPDATE_ADDRESS, CREATE_ADDRESS, DELETE_ADDRESS } from '../actions/types';
+import { FETCH_ADDRESSES, FETCH_ADDRESS, UPDATE_ADDRESS, CREATE_ADDRESS, DELETE_ADDRESS, FILTER_ADDRESSES } from '../actions/types';
 
 //TODO: break this up into different state functions
 export default function( state = {}, action) {
+    debugger;
     switch(action.type) {
         case FETCH_ADDRESSES:
             //sorted by firstName asc by default
             return Object.assign({}, state, {
                 addresses: action.payload.sort((a,b)=> { return (a.firstName.toLowerCase() < b.firstName.toLowerCase() ?  -1 : 1)})
+            });
+        case FILTER_ADDRESSES:
+            return Object.assign({}, state, {
+                filterString: action.payload
             });
         case FETCH_ADDRESS:
         case UPDATE_ADDRESS:
