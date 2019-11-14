@@ -6,7 +6,6 @@ import { bindActionCreators } from 'redux';
 class Header extends Component {
 
     filterAddresses(event) {
-        //debugger;
         this.props.filterAddresses(this.props.addresses, event.target.value);
     }
 

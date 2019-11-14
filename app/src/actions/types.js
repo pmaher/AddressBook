@@ -4,3 +4,4 @@ export const UPDATE_ADDRESS = 'update_address';
 export const CREATE_ADDRESS = 'create_address';
 export const DELETE_ADDRESS = 'delete_address';
 export const FILTER_ADDRESSES = 'filter_addresses';
+export const SORT_ADDRESSES = 'sort_addresses';

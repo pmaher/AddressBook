@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { fetchAddresses } from '../actions';
+import { fetchAddresses, sortAddresses } from '../actions';
 import { connect } from 'react-redux';
 import AddressRow from './AddressRow';
 import { Link } from 'react-router-dom';
@@ -25,34 +25,28 @@ class AddressList extends Component {
         return null;
     }
 
-    sortBy(event, field){
-        let compareFn;
-        const order = (this.state.sortBy === field && this.state.sortOrder === 'asc' ? 'desc' : 'asc');
-        if(order === 'asc') {
-            compareFn = (a,b) => (a[field].toLowerCase()<b[field].toLowerCase() ? -1 : 1 );
-        } else {
-            compareFn = (a,b) => (a[field].toLowerCase()>b[field].toLowerCase() ? -1 : 1);
+    sortBy(field){
+        let { sortBy = 'firstName', sortOrder = 'asc'} = this.props;
+        if(sortBy === field) {
+            sortOrder = (sortOrder == 'asc' ? 'desc' : 'asc');
         }
-        this.setState({
-            addresses: this.state.addresses.sort(compareFn),
-            sortBy: field,
-            sortOrder: order
-        })
+        sortBy = field;
+        this.props.sortAddresses(sortBy, sortOrder);
     }
 
     getSortClass(field) {
-        return (this.state.sortBy === field ? `sort-by-${this.state.sortOrder}` : 'sort-by-none');
+        return (this.props.sortBy === field ? `sort-by-${this.props.sortOrder}` : 'sort-by-none');
     }
 
     renderAddresses() {
         return (<table className="highlight">
             <thead>
             <tr>
-                <th><a href="#" onClick={e => this.sortBy(e, 'firstName')} 
+                <th><a href="#" onClick={this.sortBy.bind(this, 'firstName')} 
                         className={this.getSortClass('firstName')}>First Name<i className="small material-icons -up">arrow_drop_up</i><i className="small material-icons -down">arrow_drop_down</i></a></th>
-                <th><a href="#" onClick={e => this.sortBy(e, 'lastName')} 
+                <th><a href="#" onClick={this.sortBy.bind(this, 'lastName')} 
                         className={this.getSortClass('lastName')}>Last Name<i className="small material-icons -up">arrow_drop_up</i><i className="small material-icons -down">arrow_drop_down</i></a></th>
-                <th><a href="#" onClick={e => this.sortBy(e, 'email')} 
+                <th><a href="#" onClick={this.sortBy.bind(this, 'email')} 
                         className={this.getSortClass('email')}>Email<i className="small material-icons -up">arrow_drop_up</i><i className="small material-icons -down">arrow_drop_down</i></a></th>
                 <th>Phone</th>
                 <th>Edit</th>
@@ -82,18 +76,27 @@ class AddressList extends Component {
 }
 
 //this maps the addresses from the reducer to the component props
-function mapStateToProps({reducers: {addresses=[], filterString=''}}) {
-    const filteredAddresses = addresses.filter((address) => {
-        return (address.firstName.indexOf(filterString) > -1 
-                || address.lastName.indexOf(filterString) > -1 
-                || address.email.indexOf(filterString) > -1);
-    });
-    return { addresses: filteredAddresses };
+function mapStateToProps({reducers: {addresses=[], filterString='', sortBy='firstName', sortOrder='asc'}}) {
+    let compareFn;
+    if(sortOrder === 'asc') {
+        compareFn = (a,b) => (a[sortBy].toLowerCase()<b[sortBy].toLowerCase() ? -1 : 1 );
+    } else {
+        compareFn = (a,b) => (a[sortBy].toLowerCase()>b[sortBy].toLowerCase() ? -1 : 1);
+    }
+    
+    const filteredSortedAddresses = addresses.filter((address) => {
+        const filter = filterString.toLowerCase();
+        return (address.firstName.toLowerCase().indexOf(filter) > -1 
+                || address.lastName.toLowerCase().indexOf(filter) > -1 
+                || address.email.toLowerCase().indexOf(filter) > -1);
+    }).sort(compareFn);
+
+    return { addresses: filteredSortedAddresses, sortBy, sortOrder };
 }
 
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
-        fetchAddresses
+        fetchAddresses, sortAddresses
     }, dispatch);
 }
 
