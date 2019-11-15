@@ -14,11 +14,15 @@ class Header extends Component {
             <nav>
                 <div className="nav-wrapper">
                     <a href="#!" className="brand-logo center">My Address Book</a>
+                    {this.props.location.pathname === '/' &&
                     <div className="input-field right">
-                        <input id="search" type="search" onChange={e=> this.filterAddresses(e)}/>
-                        <label className="label-icon" htmlFor="search"><i className="material-icons">search</i></label>
-                        <i className="material-icons">close</i>
+                        <input id="search" placeholder="first,last,email" type="search" 
+                                onChange={e=> this.filterAddresses(e)}/>
+                        <label className="label-icon" htmlFor="search">
+                            <i className="material-icons">search</i>
+                        </label>
                     </div>
+                    }
                 </div>
             </nav>
         );
