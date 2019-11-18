@@ -7,10 +7,7 @@ export const fetchAddresses = () => async dispatch => {
     dispatch({ type: FETCH_ADDRESSES, payload: res.data });
 };
 
-export const filterAddresses = (addresses, filter) => async dispatch => {
-    // const filteredAddresses = addresses.filter((address) => {
-    //     return (address.firstName.indexOf(filter) > -1 || address.lastName.indexOf(filter) > -1 || address.email.indexOf(filter) > -1);
-    // });
+export const filterAddresses = (filter) => async dispatch => {
     dispatch({ type: FILTER_ADDRESSES, payload: filter });
 };
 
