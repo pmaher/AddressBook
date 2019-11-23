@@ -3,6 +3,7 @@ import { FETCH_ADDRESSES, FETCH_ADDRESS, UPDATE_ADDRESS, CREATE_ADDRESS,
 
 //TODO: break this up into different state functions
 export default function( state = {}, action) {
+
     switch(action.type) {
         case FETCH_ADDRESSES:
             return Object.assign({}, state, {

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import AddressRow from './AddressRow';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import './AddressList.css';
+import 'AddressList.css';
 
 class AddressList extends Component {
 
@@ -39,6 +39,7 @@ class AddressList extends Component {
     }
 
     renderAddresses() {
+
         return (<table className="highlight">
             <thead>
             <tr>
@@ -90,7 +91,6 @@ function mapStateToProps({reducers: {addresses=[], filterString='', sortBy='firs
                 || address.lastName.toLowerCase().indexOf(filter) > -1 
                 || address.email.toLowerCase().indexOf(filter) > -1);
     }).sort(compareFn);
-
     return { addresses: filteredSortedAddresses, sortBy, sortOrder };
 }
 
