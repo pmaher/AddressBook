@@ -89,3 +89,8 @@ $ curl -X DELETE localhost:8080/api/address/2
 { 
     "message" : "success"
 }
+
+STEP 5 - Run the Jest Front-End Suite
+----
+### `cd app`
+### `npm test`
