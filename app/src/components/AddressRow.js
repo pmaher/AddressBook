@@ -8,8 +8,8 @@ const AddressRow = ({id, firstName,lastName,email,phone, deleteAddress}) => {
 
     return (
         <tr>
-            <td>{firstName}</td>
-            <td>{lastName}</td>
+            <td data-test="first-name">{firstName}</td>
+            <td data-test="last-name">{lastName}</td>
             <td>{email}</td>
             <td>{phone}</td>
             <td>

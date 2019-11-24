@@ -12,36 +12,65 @@ import { createStore, applyMiddleware } from 'redux';
 jest.mock('axios');
 
 describe('AddressList Component', () => {
-  let props;
-
-  beforeEach(() => {
-    props = {
-      reducers: {
-          addresses:[], 
-          filterString:'', 
-          sortBy:'firstName', 
-          sortOrder:'asc'
-      }
+  let wrapper;
+  function firstNameAtIndex(index) {
+    return wrapper.find('tr').at(index).find('[data-test="first-name"]').text();
+  }
+  function setup(state) {
+    const initialState = {
+      reducers: state
     };
-  });
-
-  it('renders address list without crashing', (done) => {
-    const initialState = props,
-      myStore = createStore(combineReducers({ reducers }), initialState, applyMiddleware(reduxThunk));
-
-    axios.get.mockResolvedValue({data: [{firstName: 'George', lastName: 'Costanza', email: 'gc@gc.com'},
-                                              {firstName: 'Jill', lastName: 'Schwartz', email:'js@js.com'}]});
-
+    const addresses = [{id: 1, firstName: 'George', lastName: 'McFly', email: 'gm@gm.com'},
+                  {id: 2, firstName: 'Biff', lastName: 'Tannen', email: 'bt@bt.com'},
+                {id: 3, firstName: 'Lorraine', lastName: 'Bates', email: 'lb@lb.com'}];
+    const myStore = createStore(combineReducers({ reducers }), initialState, applyMiddleware(reduxThunk));
+    axios.get.mockResolvedValue({data: addresses});
     const mountWithProvider = children => (store = myStore) => mount(<Provider store={store}>{children}</Provider>);
-    const wrapper = mountWithProvider(<Router><AddressList {...props} /></Router>)();
-    
+    wrapper = mountWithProvider(<Router><AddressList {...initialState} /></Router>)();
+  };
+
+  it('renders the address list in asc order', (done) => {
+    setup({ addresses:[], filterString:'', sortBy:'firstName', sortOrder:'asc' });
     expect(wrapper.exists()).toBe(true);
     setImmediate(() => {
       /* this update is needed since the enzyme wrapper is immutable as of v.3
       updates the mounted wrapper to reflect data from the mock ajax request */
       wrapper.update();
-      //header plus 2 rows of data
-      expect(wrapper.find('tr').length).toBe(3);
+      //header plus 3 rows of data
+      expect(wrapper.find('tr').length).toBe(4);
+      expect(firstNameAtIndex(1)).toBe('Biff');
+      expect(firstNameAtIndex(2)).toBe('George');
+      expect(firstNameAtIndex(3)).toBe('Lorraine');
+      done();
+    });  
+  });
+
+  it('filters the address list when a search filter exists', (done) => {
+    setup({ addresses:[], filterString:'bates', sortBy:'firstName', sortOrder:'asc' });
+    expect(wrapper.exists()).toBe(true);
+    setImmediate(() => {
+      /* this update is needed since the enzyme wrapper is immutable as of v.3
+      updates the mounted wrapper to reflect data from the mock ajax request */
+      wrapper.update();
+      //header plus 1 row of data
+      expect(wrapper.find('tr').length).toBe(2);
+      expect(firstNameAtIndex(1)).toBe('Lorraine');
+      done();
+    });  
+  });
+  
+  it('sorts the address list in desc order', (done) => {
+    setup({ addresses:[], filterString:'', sortBy:'email', sortOrder:'desc' });
+    expect(wrapper.exists()).toBe(true);
+    setImmediate(() => {
+      /* this update is needed since the enzyme wrapper is immutable as of v.3
+      updates the mounted wrapper to reflect data from the mock ajax request */
+      wrapper.update();
+      //header plus 1 row of data
+      expect(wrapper.find('tr').length).toBe(4);
+      expect(firstNameAtIndex(1)).toBe('Lorraine');
+      expect(firstNameAtIndex(2)).toBe('George');
+      expect(firstNameAtIndex(3)).toBe('Biff');
       done();
     });  
   });

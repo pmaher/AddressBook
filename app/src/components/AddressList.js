@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import AddressRow from './AddressRow';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import 'AddressList.css';
+import './AddressList.css';
 
 class AddressList extends Component {
 
