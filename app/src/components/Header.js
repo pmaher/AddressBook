@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { filterAddresses } from '../actions';
 import { bindActionCreators } from 'redux';
 
-class Header extends Component {
+export class Header extends Component {
 
     filterAddresses(event) {
         this.props.filterAddresses(event.target.value);
