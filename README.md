@@ -14,6 +14,7 @@ Step 1 - Run the backend Tomcat Server
 Step 2 - Start the frontend server from the /app directory
 ----
 ### `cd app`
+### `npm install`
 ### `npm start`
 
 
