@@ -1,7 +1,7 @@
 # Address Book w/ React, Redux, Maven and Spring Boot
 
 ## Welcome!
-With this little app you'll be able to add, update, view, delete, filter and sort addresses using a handy little single page webapp built with React + Redux + Spring Boot built with maven.
+With this little app you'll be able to add, update, view, delete, filter and sort addresses using a handy little single page webapp built with React + Redux + Spring Boot built with maven.  Works with Java v. 13+
 
 Step 0 - Building the Project
 ----
